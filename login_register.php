@@ -2,6 +2,12 @@
 session_start();
 require_once 'con.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo "Form submitted successfully!";
+} else {
+    echo "Invalid request.";
+}
+
 if (isset($_POST['register'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
