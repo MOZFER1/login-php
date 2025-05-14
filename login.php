@@ -133,4 +133,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-<scr
+<script>main.js</script>
+</body>
+</html>
