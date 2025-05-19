@@ -7,28 +7,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // تسجيل الدخول
         $email = trim($_POST["email"]);
         $password = trim($_POST["password"]);
+
         if ($email && $password) {
-            $stmt = $conn->prepare("SELECT id, name, password FROM user WHERE email = ?");
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $result = $stmt->get_result();
-             
-            if ($result->num_rows === 1) {
-                $row = $result->fetch_assoc();
-                $message = "email already exists";
-                if (password_verify($password, $row['password'])) {
-                    session_start();
-                    $_SESSION['user_id'] = $row['id'];
-                    $_SESSION['user_name'] = $row['name'];
-                    header("Location: user.php");
-                    exit();
+            try {
+                $stmt = $conn->prepare("SELECT id, name, password FROM user WHERE email = :email");
+                $stmt->bindParam(":email", $email);
+                $stmt->execute();
+                
+                if ($stmt->rowCount() === 1) {
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if (password_verify($password, $row['password'])) {
+                        session_start();
+                        $_SESSION['user_id'] = $row['id'];
+                        $_SESSION['user_name'] = $row['name'];
+                        header("Location: user.php");
+                        exit();
+                    } else {
+                        $message = "incorrect password.";
+                    }
                 } else {
-                    $message = "incorrect password.";
+                    $message = "email not found";
                 }
-            } else {
-                $message = "email not found";
+
+            } catch (PDOException $e) {
+                $message = "Error: " . $e->getMessage();
             }
-            $stmt->close();
+
         } else {
             $message = "all fields are required.";
         }
@@ -37,21 +42,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name = trim($_POST["name"]);
         $email = trim($_POST["email"]);
         $password = trim($_POST["password"]);
+
         if ($name && $email && $password) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $name, $email, $hashed_password);
-            if ($stmt->execute()) {
-                $message = "successfully registered.";
-            } else {
-                $message = "An error  " . $conn->error;
+
+            try {
+                $stmt = $conn->prepare("INSERT INTO user (name, email, password) VALUES (:name, :email, :password)");
+                $stmt->bindParam(":name", $name);
+                $stmt->bindParam(":email", $email);
+                $stmt->bindParam(":password", $hashed_password);
+
+                if ($stmt->execute()) {
+                    $message = "successfully registered.";
+                } else {
+                    $message = "An error occurred during registration.";
+                }
+
+            } catch (PDOException $e) {
+                $message = "Error: " . $e->getMessage();
             }
-            $stmt->close();
+
         } else {
             $message = "all fields are required.";
         }
     }
 }
+?>
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,6 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-<script>main.js</script>
+<script src="main.js"></script>
 </body>
 </html>
