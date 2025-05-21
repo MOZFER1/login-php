@@ -6,7 +6,7 @@ include 'db_connect.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="user.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Mozfer Phone</title>
 </head>
@@ -17,17 +17,19 @@ include 'db_connect.php';
             PhoneHub
         </a>
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Phones</a>
-            <a href="#">Features</a>
+            <a href="#hero">Home</a>
+            <a href="#proudct">Phones</a>
+            <a href="#features">Features</a>
             <a href="#">Reviews</a>
         </div>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <div class="cart-icon">
-                🛒
+                <a href="cart.php">🛒
+                    
                 <span class="cart-count">3</span>
             </div>
             <a href="login.php" class="sign-in">Sign In</a>
+            <a href="login.php" class="sign-in">Logout</a>
         </div>
     </nav>
     <section class="hero">
@@ -46,7 +48,34 @@ include 'db_connect.php';
             </svg>
         </div>
     </section>
-    <section class="features">
+  
+<h2>Latest Phones</h2>
+        <div class="products">
+
+
+
+<?php  
+
+ $stmt = $conn->prepare("SELECT * FROM pr");
+$stmt->execute();
+$result = $stmt->get_result();
+while($row = $result->fetch_assoc()){
+    ?>
+          <div class="product">
+          <a href="product-card.php?id=<?php echo $row["id"] ?>">
+              <img src="<?php echo $row["img"] ?>" alt="Samsung Galaxy A15" width="150">
+            </a>
+            <h3><?php echo $row["name"] ?></h3>
+            <p>Price: <del><?php echo $row["price"] ?></del> SAR</p>
+            <p>New Price: <?php echo $row["new_price"] ?> SAR</p>
+            <button>Add to Cart</button>
+          </div>
+<?php } ?>
+      
+        </div>
+      </div>
+    </div>
+      <section class="features">
         <h2>Why Choose PhoneHub?</h2>
         <p class="section-desc">We offer the best smartphone shopping experience with exclusive benefits.</p>
         
@@ -92,106 +121,6 @@ include 'db_connect.php';
             </div>
         </div>
     </section>
-
-        <div class="products">
-
-
-
-<?php  
-
- $stmt = $conn->prepare("SELECT * FROM pr");
-$stmt->execute();
-
-$raws = $stmt->fetchAll();
-foreach($raws as $row){
-    ?>
-          <div class="product">
-          <a href="product-card.php?id=<?php echo $row["id"] ?>">
-              <img src="<?php echo $row["img"] ?>" alt="Samsung Galaxy A15" width="150">
-            </a>
-            <h3><?php echo $row["name"] ?></h3>
-            <p>Price: <del><?php echo $row["Price"] ?></del> SAR</p>
-            <p>New Price: <?php echo $row["New Price"] ?> SAR</p>
-            <button>Add to Cart</button>
-          </div>
-<?php } ?>
-
-
-          <!-- <div class="product">
-            <img src="" alt="Samsung Galaxy A51" width="150">
-            <h3>Samsung Galaxy A51</h3>
-            <p>Price: <del>950</del> SAR</p>
-            <p>New Price: 899 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://cdn.akakce.com/samsung/samsung-galaxy-a70-128-gb-siyah-z.jpg" alt="Samsung Galaxy A70" width="150">
-            <h3>Samsung Galaxy A70</h3>
-            <p>Price: <del>1100</del> SAR</p>
-            <p>New Price: 999 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTXCFgPiQZLJ6mmrImI9GBalDyxVDpVTDX5G4pkgeaTNbDaATVRkTY_iLXZQmxHIuY6b4HFRv90yU4DzIK6tRHmJEkwjTgyB725lQJdbHC3R4Uv2iNdQsK5-vwCfP5qlAPiplmw3mU8pps&usqp=CAc" alt="Samsung Galaxy A71" width="150">
-            <h3>Samsung Galaxy A71</h3>
-            <p>Price: <del>1300</del> SAR</p>
-            <p>New Price: 1199 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://m.media-amazon.com/images/I/51VT-Hpx-bS._AC_UF1000,1000_QL80_.jpg" alt="Xiaomi Mi 11 Ultra" width="150">
-            <h3>Xiaomi Mi 11 Ultra</h3>
-            <p>Price: <del>2500</del> SAR</p>
-            <p>New Price: 2399 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRDDOxFCDMD61V4qpN_avyyNvWpzZvHS4cHFJrXxvi9uiTppNe7NVS_5_ULa0LrAtHzV-ETWcGfA-zszu7OF7aLu3Oo3WKrmWKgywJOXJBcEhF3CBTQvMH63rOvAMsPVeIuMu8FzW8&usqp=CAc" alt="Redmi Note 10 Pro" width="150">
-            <h3>Redmi Note 10 Pro</h3>
-            <p>Price: <del>1100</del> SAR</p>
-            <p>New Price: 999 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-          <div class="product">
-            <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSTyBV_SZMikn0EcOruFGPldG74ui9YD0lVPIUXPdkhqoqyRlJysyuQ50S16iVTaN_4cwOkTvqrKAH0DpHrWXVxlqpizs98zND_t3tQbiQUp_dRfb50p7G8Xnx3sNUVjt_cGa7CAg-3p9g&usqp=CAc" alt="Redmi Note 11 Pro" width="150">
-            <h3>Redmi Note 11 Pro</h3>
-            <p>Price: <del>1200</del> SAR</p>
-            <p>New Price: 1099 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTG8KaO54M4DIMcvDIXCjwxwgeikKmg5BOoqV-fka3ZBGesjQIFxzfG6Sm21sQJUVmAUj6J711BEk7SXAJjbPHryQOzBOG0Sb7ZEjqAjtI&usqp=CAc" alt="POCO F3" width="150">
-            <h3>POCO F3</h3>
-            <p>Price: <del>1500</del> SAR</p>
-            <p>New Price: 1399 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTXCFgPiQZLJ6mmrImI9GBalDyxVDpVTDX5G4pkgeaTNbDaATVRkTY_iLXZQmxHIuY6b4HFRv90yU4DzIK6tRHmJEkwjTgyB725lQJdbHC3R4Uv2iNdQsK5-vwCfP5qlAPiplmw3mU8pps&usqp=CAc" alt="POCO F4" width="150">
-            <h3>POCO F4</h3>
-            <p>Price: <del>1600</del> SAR</p>
-            <p>New Price: 1499 SAR</p>
-            <button>Add to Cart</button>
-          </div>
-
-          <div class="product">
-            <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTXCFgPiQZLJ6mmrImI9GBalDyxVDpVTDX5G4pkgeaTNbDaATVRkTY_iLXZQmxHIuY6b4HFRv90yU4DzIK6tRHmJEkwjTgyB725lQJdbHC3R4Uv2iNdQsK5-vwCfP5qlAPiplmw3mU8pps&usqp=CAc" alt="POCO F5" width="150">
-            <h3>POCO F5</h3>
-            <p>Price: <del>1800</del> SAR</p>
-            <p>New Price: 1699 SAR</p>
-            <button>Add to Cart</button>
-          </div> -->
-
-          
-        </div>
-      </div>
-    </div>
     <section class="newsletter">
         <h2>Stay Updated</h2>
         <p>Subscribe to our newsletter to be the first to know about new phone launches and exclusive offers.</p>
