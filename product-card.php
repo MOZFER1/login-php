@@ -1,14 +1,7 @@
 <?php
 include 'db_connect.php';
 
-
-
 $id = $_GET['id'] ?? null;
-if ($id>0) { 
-
-    echo  $id;
-}
-    
 ?>
 
 <!DOCTYPE html>
@@ -21,36 +14,58 @@ if ($id>0) {
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+     <nav>
+           <a href="user.php" class="logo">
+            <span>📱</span>
+            PhoneHub
+        </a>
+        
+        <div class="nav-links">
+            <a href="#hero">Home</a>
+            <a href="#proudct">Phones</a>
+            <a href="#features">Features</a>
+            <a href="#">Reviews</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="cart-icon">
+                <a href="cart.php">🛒
+                    
+                <span class="cart-count">3</span>
+            </div>
+            <a href="login.php" class="sign-in">Sign In</a>
+        </div>
+    </nav>
 
-<?php 
-$stmt = $conn->prepare("SELECT * FROM pr WHERE id = :id");
-$stmt->execute(array (':id' => $id));
-
-$raws = $stmt->fetchAll();
-foreach($raws as $row){
-
+<?php
+if ($id) {
+    $stmt = $conn->prepare("SELECT * FROM pr WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
 ?>
     <div class="product-card-container">
         <div class="product-card">
             <div class="product-image">
-                <img src="<?php echo $row["img"] ?>" alt="Samsung Galaxy A15">
+                <img src="<?php echo $row["img"] ?>" alt="<?php echo $row["name"] ?>">
             </div>
             <div class="product-details">
                 <h2 class="product-title"><?php echo $row["name"]?></h2>
                 <div class="product-rating">
-                    <!-- <span class="stars">
+                    <span class="stars">
                         <i class='bx bxs-star'></i>
                         <i class='bx bxs-star'></i>
                         <i class='bx bxs-star'></i>
                         <i class='bx bxs-star'></i>
                         <i class='bx bx-star'></i>
-                    </span> -->
+                    </span> 
                     <span class="rating-value">4.0</span>
                 </div>
-                <!-- <p class="product-desc">A powerful smartphone with a stunning display, long-lasting battery, and advanced camera features. Perfect for everyday use and entertainment.</p> -->
+                <p class="product-desc">A powerful smartphone with a stunning display, long-lasting battery, and advanced camera features. Perfect for everyday use and entertainment.</p>
                 <div class="product-price">
-                    <span class="old-price"><?php echo $row["Price"] ?></span>
-                    <span class="new-price"><?php echo $row["New Price"] ?></span>
+                    <span class="old-price"><?php echo $row["price"] ?></span>
+                    <span class="new-price"><?php echo $row["new_price"] ?></span>
                 </div>
                 <div class="product-options">
                     <label for="size">Size:</label>
@@ -70,7 +85,15 @@ foreach($raws as $row){
         </div>
         <div id="cart-message" class="cart-message"></div>
     </div>
-    <?php } ?>
-    <script src="product-card.js"></script>
+<?php
+    } else {
+        echo "<p>Product not found.</p>";
+    }
+} else {
+    echo "<p>Invalid product ID.</p>";
+}
+?>
+
+<script src="product-card.js"></script>
 </body>
 </html>
