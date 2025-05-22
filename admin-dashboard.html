@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Sales Admin</title>
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <nav class="admin-nav">
+        <a href="#" class="logo">
+            <span>📱</span>
+            PhoneHub
+        </a>
+        <div class="admin-panel">
+            <span>Admin Panel</span>
+            <span class="admin-avatar"><i class='bx bxs-user'></i></span>
+        </div>
+    </nav>
+    <main class="admin-main">
+        <section class="admin-form-section">
+            <h2>Add New Phone</h2>
+            <form class="admin-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phoneName">Phone Name</label>
+                        <input type="text" id="phoneName" placeholder="Enter phone name">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price ($)</label>
+                        <input type="text" id="price" placeholder="Enter price">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" placeholder="Enter description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stock">Stock Quantity</label>
+                        <input type="text" id="stock" placeholder="Enter stock quantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Color</label>
+                        <select id="color">
+                            <option>Black</option>
+                            <option>Silver</option>
+                            <option>Blue</option>
+                            <option>White</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="primary-button">Add Phone</button>
+            </form>
+        </section>
+        <section class="admin-inventory-section">
+            <h2>Phone Inventory</h2>
+            <div class="inventory-search-row">
+                <input type="text" class="inventory-search" placeholder="Search phones...">
+            </div>
+            <div class="inventory-table-wrapper">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>PHONE</th>
+                            <th>PRICE</th>
+                            <th>STOCK</th>
+                            <th>COLOR</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>iPhone 13 Pro</strong><br>
+                                <span class="desc">Latest Apple iPhone with A15 Bionic chip</span>
+                            </td>
+                            <td>$999.99</td>
+                            <td><span class="stock-badge">15</span></td>
+                            <td><span class="color-dot silver"></span> Silver</td>
+                            <td><a href="#" class="edit-link">Edit</a> <span class="delete-icon"><i class='bx bx-trash'></i></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Samsung Galaxy S21</strong><br>
+                                <span class="desc">Flagship Android phone with 120Hz display</span>
+                            </td>
+                            <td>$799.99</td>
+                            <td><span class="stock-badge">20</span></td>
+                            <td><span class="color-dot black"></span> Black</td>
+                            <td><a href="#" class="edit-link">Edit</a> <span class="delete-icon"><i class='bx bx-trash'></i></span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Google Pixel 6</strong><br>
+                                <span class="desc">Google's latest with custom Tensor chip</span>
+                            </td>
+                            <td>$699.99</td>
+                            <td><span class="stock-badge">10</span></td>
+                            <td><span class="color-dot blue"></span> Blue</td>
+                            <td><a href="#" class="edit-link">Edit</a> <span class="delete-icon"><i class='bx bx-trash'></i></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
